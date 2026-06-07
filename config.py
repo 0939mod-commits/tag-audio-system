@@ -1,48 +1,47 @@
-"""Configuration file for Audio Tag Detection System"""
+"""Configuration for Weather Dashboard"""
 import os
-from pathlib import Path
+from dotenv import load_dotenv
 
-# Supported input formats
-SUPPORTED_FORMATS = ['.mkv', '.aac', '.wav', '.mp3', '.mp4']
+load_dotenv()
 
-# Output configuration
-OUTPUT_BITRATE = '128k'
-OUTPUT_FORMAT = 'aac'
-OUTPUT_CODEC = 'aac'
+# Weather API Configuration
+WEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY', 'YOUR_API_KEY_HERE')
+WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5'
+GEO_API_URL = 'https://api.openweathermap.org/geo/1.0'
 
-# Audio processing parameters
-SAMPLE_RATE = 44100
-FFT_SIZE = 2048
-HOP_LENGTH = 512
-N_MELS = 128
+# Flask Configuration
+FLASK_ENV = os.getenv('FLASK_ENV', 'development')
+FLASK_DEBUG = os.getenv('FLASK_DEBUG', True)
+FLASK_HOST = os.getenv('FLASK_HOST', '0.0.0.0')
+FLASK_PORT = int(os.getenv('FLASK_PORT', 5000))
 
-# Tag detection parameters
-MIN_TAG_DURATION = 0.3  # Minimum duration of tag in seconds
-MAX_TAG_DURATION = 8.0  # Maximum duration of tag in seconds
-CORRELATION_THRESHOLD = 0.80  # High correlation threshold for precision
-DTW_THRESHOLD = 0.75  # DTW similarity threshold
-NOISE_THRESHOLD = 0.05  # Threshold for background noise
-DTW_WINDOW = 100  # Dynamic Time Warping window size
-MULTIPLE_DETECTION_THRESHOLD = 0.5  # Allow multiple detections with gap
+# Cache Configuration
+CACHE_TIMEOUT = int(os.getenv('CACHE_TIMEOUT', 600))  # 10 minutes
+CACHE_TYPE = 'simple'
 
-# Processing parameters
-CHUNK_SIZE = 4096
-OVERLAP_RATIO = 0.5
-SMOOTHING_WINDOW = 21
-MIN_GAP_BETWEEN_TAGS = 0.2  # Minimum gap between tags in seconds
+# Units Configuration
+TEMPERATURE_UNIT = os.getenv('TEMPERATURE_UNIT', 'metric')  # 'metric', 'imperial', 'standard'
+WIND_UNIT = os.getenv('WIND_UNIT', 'mps')  # m/s, km/h, mph
+PRESSURE_UNIT = os.getenv('PRESSURE_UNIT', 'hpa')  # hPa, mb, inHg
 
-# Paths
-TEMP_DIR = Path('./temp_processing')
-OUTPUT_DIR = Path('./output')
-LOG_DIR = Path('./logs')
+# Location Configuration
+DEFAULT_CITY = os.getenv('DEFAULT_CITY', 'Tehran')
+DEFAULT_COUNTRY = os.getenv('DEFAULT_COUNTRY', 'IR')
 
-# Create directories if they don't exist
-for directory in [TEMP_DIR, OUTPUT_DIR, LOG_DIR]:
-    directory.mkdir(parents=True, exist_ok=True)
+# UI Configuration
+THEME = os.getenv('THEME', 'dark')  # 'light', 'dark'
+DISPLAY_MODE = os.getenv('DISPLAY_MODE', 'web')  # 'web', 'cli', 'both'
 
-# Detection algorithm parameters
-USE_SPECTRAL_ANALYSIS = True
-USE_MFCC_ANALYSIS = True
-USE_DTW_MATCHING = True
-USE_ENVELOPE_MATCHING = True
-ENSEMBLE_METHOD = 'voting'  # 'voting' or 'averaging'
+# Timeout Configuration
+REQUEST_TIMEOUT = int(os.getenv('REQUEST_TIMEOUT', 10))
+MAX_RETRIES = int(os.getenv('MAX_RETRIES', 3))
+
+# Logging Configuration
+LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
+LOG_FILE = os.getenv('LOG_FILE', './logs/weather_dashboard.log')
+
+# Features
+ENABLE_FORECAST = os.getenv('ENABLE_FORECAST', 'true').lower() == 'true'
+ENABLE_ALERTS = os.getenv('ENABLE_ALERTS', 'true').lower() == 'true'
+ENABLE_HISTORY = os.getenv('ENABLE_HISTORY', 'true').lower() == 'true'
+ENABLE_CHARTS = os.getenv('ENABLE_CHARTS', 'true').lower() == 'true'
